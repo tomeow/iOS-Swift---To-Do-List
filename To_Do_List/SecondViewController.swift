@@ -8,7 +8,22 @@
 
 import UIKit
 
-class SecondViewController: UIViewController {
+class SecondViewController: UIViewController, UITextFieldDelegate{
+    
+    
+    @IBOutlet var item: UITextField!
+    
+    
+    @IBAction func addItem(sender: AnyObject) {
+        
+        toDoList.append(item.text!)
+        
+        item.text = ""
+        
+        //first view contorollerで設定したNSUserDefaultsでリストが追加更新される度にNSUserDefaultsも更新されるよう設定
+        NSUserDefaults.standardUserDefaults().setObject(toDoList, forKey: "toDoList")
+        
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,7 +34,19 @@ class SecondViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
+    
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        
+        self.view.endEditing(true)
+    }
+    
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        
+        textField.resignFirstResponder()
+        
+        return true
+    }
+    
 
 }
 
